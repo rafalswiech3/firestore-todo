@@ -7,4 +7,6 @@
     <string name="add_description">Description</string>
     <string name="add">Add</string>
     <string name="icon_url">Icon URL</string>
+    <string name="failedToAddToDo">Failed to add ToDo</string>
+    <string name="successToAddToDo">Successfully added new ToDo</string>
 </resources>
