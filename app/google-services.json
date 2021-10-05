@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "937274396628",
+    "project_id": "firestore-todo-45936",
+    "storage_bucket": "firestore-todo-45936.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:937274396628:android:b41109d7f00a0a0fe71041",
+        "android_client_info": {
+          "package_name": "com.rafal.firestoretodo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "937274396628-ia13n9f4igak3qevtal1il347nuka2fb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAoMQpDKfQLzuLNNYlQb6AzOJGnaMdFjos"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "937274396628-ia13n9f4igak3qevtal1il347nuka2fb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
