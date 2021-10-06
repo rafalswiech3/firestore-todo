@@ -41,7 +41,6 @@ class AddToDoFragment : Fragment() {
 
     private fun registerAddToDoButtonListener() {
         binding.addBtn.setOnClickListener {
-            val date = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date())
             val title = binding.addTitleTextInput.text.toString()
             val description = binding.addDescTextInput.text.toString()
             val url = binding.addUrlTextInput.text.toString()
@@ -50,7 +49,6 @@ class AddToDoFragment : Fragment() {
                     Todo(
                         title = title,
                         desc = description,
-                        date = date,
                         url = url
                     )
                 )

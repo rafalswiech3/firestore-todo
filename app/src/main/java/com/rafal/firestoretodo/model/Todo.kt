@@ -1,11 +1,19 @@
 package com.rafal.firestoretodo.model
 
 import com.google.firebase.firestore.IgnoreExtraProperties
+import com.google.firebase.firestore.ServerTimestamp
+import java.util.*
 
 @IgnoreExtraProperties
 data class Todo(
-    val title: String,
-    val desc: String,
-    val date: String,
-    val url: String
-)
+    var id: String? = null,
+    var title: String? = null,
+    var desc: String? = null,
+    @ServerTimestamp
+    var date: Date? = null,
+    var url: String? = null
+) {
+    companion object {
+        const val FIELD_DATE = "date"
+    }
+}

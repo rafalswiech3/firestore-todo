@@ -3,11 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/addToDoFragment">
+    app:startDestination="@id/mainFragment">
 
     <fragment
         android:id="@+id/addToDoFragment"
         android:name="com.rafal.firestoretodo.screens.addtodo.AddToDoFragment"
         android:label="@string/add_todo_fragment_title"
         tools:layout="@layout/fragment_add_to_do" />
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.rafal.firestoretodo.screens.main.MainFragment"
+        android:label="@string/main_fragment_title"
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_mainFragment_to_addToDoFragment"
+            app:destination="@id/addToDoFragment" />
+    </fragment>
 </navigation>

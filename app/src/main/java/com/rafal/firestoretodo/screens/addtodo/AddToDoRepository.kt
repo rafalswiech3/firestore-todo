@@ -1,6 +1,7 @@
 package com.rafal.firestoretodo.screens.addtodo
 
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.FirebaseFirestore
 import com.rafal.firestoretodo.model.Todo
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -11,7 +12,9 @@ class AddToDoRepository @Inject constructor(
 ) {
     suspend fun addToDo(todo: Todo): Boolean {
         var result: Boolean? = null
-        todos.add(todo)
+        val ref = todos.document()
+        todo.id = ref.id
+        ref.set(todo)
             .addOnSuccessListener {
                 result = true
             }
