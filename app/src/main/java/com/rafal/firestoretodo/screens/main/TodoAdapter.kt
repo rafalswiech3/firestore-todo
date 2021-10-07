@@ -1,12 +1,19 @@
 package com.rafal.firestoretodo.screens.main
 
+import android.graphics.drawable.Drawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.rafal.firestoretodo.R
 import com.rafal.firestoretodo.databinding.TodoListItemBinding
 import com.rafal.firestoretodo.model.Todo
@@ -34,10 +41,38 @@ class TodoAdapter(
         }
 
         private fun loadIcon(url: String?) {
-            if(!url.isNullOrEmpty()) {
+            if (!url.isNullOrEmpty()) {
+                binding.todoPb.isVisible = true
                 Glide.with(itemView)
                     .load(url)
                     .transition(DrawableTransitionOptions.withCrossFade())
+                    .listener(object : RequestListener<Drawable> {
+                        override fun onLoadFailed(
+                            e: GlideException?,
+                            model: Any?,
+                            target: Target<Drawable>?,
+                            isFirstResource: Boolean
+                        ): Boolean {
+                            Log.d("TAG", "loaded image error")
+                            binding.apply {
+                                todoIv.setImageResource(R.drawable.ic_baseline_error_24)
+                                todoPb.isVisible = false
+                            }
+                            return true
+                        }
+
+                        override fun onResourceReady(
+                            resource: Drawable?,
+                            model: Any?,
+                            target: Target<Drawable>?,
+                            dataSource: DataSource?,
+                            isFirstResource: Boolean
+                        ): Boolean {
+                            binding.todoPb.isVisible = false
+                            return false
+                        }
+
+                    })
                     .into(binding.todoIv)
             } else {
                 binding.todoIv.setImageResource(R.drawable.ic_baseline_business_center_24)

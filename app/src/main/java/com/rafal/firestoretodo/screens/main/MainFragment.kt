@@ -1,7 +1,6 @@
 package com.rafal.firestoretodo.screens.main
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,14 +10,10 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
-import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.ListenerRegistration
 import com.rafal.firestoretodo.R
-import com.rafal.firestoretodo.databinding.FragmentAddToDoBinding
 import com.rafal.firestoretodo.databinding.FragmentMainBinding
-import com.rafal.firestoretodo.screens.addtodo.AddToDoViewModel
 import com.rafal.firestoretodo.utils.IRecyclerViewClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -55,8 +50,15 @@ class MainFragment : Fragment(), IRecyclerViewClickListener {
         observeToDoLiveData()
         observeRemoveToDoLiveData()
         registerFloatingButtonClickListener()
-        getTodos()
+        registerRetryButtonClickListener()
+        getTodosInit()
         addSnapshotListener()
+    }
+
+    private fun registerRetryButtonClickListener() {
+        binding.mainRetryBtn.setOnClickListener {
+            viewModel.getTodos()
+        }
     }
 
     private fun prepareTodoAdapter() {
@@ -89,8 +91,8 @@ class MainFragment : Fragment(), IRecyclerViewClickListener {
         }
     }
 
-    private fun getTodos() {
-        viewModel.getTodos()
+    private fun getTodosInit() {
+        viewModel.getTodosInit()
     }
 
     private fun registerFloatingButtonClickListener() {

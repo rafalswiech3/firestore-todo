@@ -26,13 +26,17 @@ class MainViewModel @Inject constructor(
     val removeTodoLiveData: LiveData<Boolean> = _removeTodoLiveData
 
     fun getTodos() {
-        if(!todosInitLoaded) {
-            viewModelScope.launch(Dispatchers.IO) {
-                repo.getTodos().cachedIn(viewModelScope).collect {
-                    _todoLiveData.postValue(it)
-                }
+        viewModelScope.launch(Dispatchers.IO) {
+            repo.getTodos().cachedIn(viewModelScope).collect {
+                _todoLiveData.postValue(it)
             }
-            todosInitLoaded
+        }
+    }
+
+    fun getTodosInit() {
+        if (!todosInitLoaded) {
+            getTodos()
+            todosInitLoaded = true
         }
     }
 
