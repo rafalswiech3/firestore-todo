@@ -92,28 +92,28 @@ class MainFragment : Fragment(), IRecyclerViewClickListener {
     }
 
     private fun observeRemoveToDoLiveData() {
-        viewModel.removeTodoLiveData.observe(viewLifecycleOwner) {
-            when (it) {
-                true -> Toast.makeText(
-                    context,
-                    getString(R.string.success_remove_todo),
-                    Toast.LENGTH_SHORT
-                ).show()
-                false -> Toast.makeText(
-                    context,
-                    getString(R.string.error_remove_todo),
-                    Toast.LENGTH_SHORT
-                ).show()
+        viewModel.removeTodoLiveData.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let {
+                when (it) {
+                    true -> Toast.makeText(
+                        context,
+                        getString(R.string.success_remove_todo),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    false -> Toast.makeText(
+                        context,
+                        getString(R.string.error_remove_todo),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
     }
 
     private fun observeRemoveTodoDialogLiveData() {
         viewModel.removeTodoDialogLiveData.observe(viewLifecycleOwner) {
-            if (it) {
-                viewModel.todoToRemoveID?.let {
-                    viewModel.removeTodo()
-                }
+            it.getContentIfNotHandled()?.let {
+                viewModel.removeTodo()
             }
         }
     }

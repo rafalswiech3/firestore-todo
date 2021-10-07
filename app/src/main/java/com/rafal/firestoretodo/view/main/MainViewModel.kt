@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.rafal.firestoretodo.model.Todo
+import com.rafal.firestoretodo.utils.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
@@ -22,11 +23,11 @@ class MainViewModel @Inject constructor(
     private val _todoLiveData: MutableLiveData<PagingData<Todo>> = MutableLiveData()
     val todoLiveData: LiveData<PagingData<Todo>> = _todoLiveData
 
-    private val _removeTodoLiveData: MutableLiveData<Boolean> = MutableLiveData()
-    val removeTodoLiveData: LiveData<Boolean> = _removeTodoLiveData
+    private val _removeTodoLiveData: MutableLiveData<Event<Boolean>> = MutableLiveData()
+    val removeTodoLiveData: LiveData<Event<Boolean>> = _removeTodoLiveData
 
-    private val _removeTodoDialogLiveData: MutableLiveData<Boolean> = MutableLiveData()
-    val removeTodoDialogLiveData: LiveData<Boolean> = _removeTodoDialogLiveData
+    private val _removeTodoDialogLiveData: MutableLiveData<Event<Boolean>> = MutableLiveData()
+    val removeTodoDialogLiveData: LiveData<Event<Boolean>> = _removeTodoDialogLiveData
 
     var todoToRemoveID: String? = null
 
@@ -46,13 +47,13 @@ class MainViewModel @Inject constructor(
     }
 
     fun removeTodoDialogConfirmed() {
-        _removeTodoDialogLiveData.value = true
+        _removeTodoDialogLiveData.value = Event(true)
     }
 
     fun removeTodo() {
         todoToRemoveID?. let {
             viewModelScope.launch(Dispatchers.IO) {
-                _removeTodoLiveData.postValue(repo.removeTodo(it))
+                _removeTodoLiveData.postValue(Event(repo.removeTodo(it)))
                 todoToRemoveID = null
             }
         }
