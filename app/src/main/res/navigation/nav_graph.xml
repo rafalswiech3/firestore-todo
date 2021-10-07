@@ -7,12 +7,12 @@
 
     <fragment
         android:id="@+id/addToDoFragment"
-        android:name="com.rafal.firestoretodo.screens.addtodo.AddToDoFragment"
+        android:name="com.rafal.firestoretodo.view.addtodo.AddToDoFragment"
         android:label="@string/add_todo_fragment_title"
         tools:layout="@layout/fragment_add_to_do" />
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.rafal.firestoretodo.screens.main.MainFragment"
+        android:name="com.rafal.firestoretodo.view.main.MainFragment"
         android:label="@string/main_fragment_title"
         tools:layout="@layout/fragment_main">
         <action

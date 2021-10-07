@@ -1,6 +1,5 @@
-package com.rafal.firestoretodo.screens.main
+package com.rafal.firestoretodo.view.main
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.google.firebase.firestore.CollectionReference

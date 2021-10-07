@@ -1,4 +1,4 @@
-package com.rafal.firestoretodo.screens.main
+package com.rafal.firestoretodo.view.main
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

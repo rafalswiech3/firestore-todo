@@ -1,4 +1,4 @@
-package com.rafal.firestoretodo.screens.main
+package com.rafal.firestoretodo.view.main
 
 import android.graphics.drawable.Drawable
 import android.util.Log
@@ -18,10 +18,11 @@ import com.rafal.firestoretodo.R
 import com.rafal.firestoretodo.databinding.TodoListItemBinding
 import com.rafal.firestoretodo.model.Todo
 import com.rafal.firestoretodo.utils.IRecyclerViewClickListener
+import com.rafal.firestoretodo.view.dialogs.DeleteToDoConfirmationDialog
 import java.text.SimpleDateFormat
 
 class TodoAdapter(
-    private val itemClickListener: IRecyclerViewClickListener
+    val listener: IRecyclerViewClickListener
 ) : PagingDataAdapter<Todo, TodoAdapter.TodoViewHolder>(COMPARATOR) {
 
     inner class TodoViewHolder(private val binding: TodoListItemBinding) :
@@ -35,7 +36,7 @@ class TodoAdapter(
             loadIcon(todo.url)
 
             binding.root.setOnLongClickListener {
-                itemClickListener.longClick(todo.id!!)
+                listener.longClick(todo.id!!)
                 true
             }
         }
@@ -53,7 +54,6 @@ class TodoAdapter(
                             target: Target<Drawable>?,
                             isFirstResource: Boolean
                         ): Boolean {
-                            Log.d("TAG", "loaded image error")
                             binding.apply {
                                 todoIv.setImageResource(R.drawable.ic_baseline_error_24)
                                 todoPb.isVisible = false
@@ -105,4 +105,6 @@ class TodoAdapter(
 
         }
     }
+
+
 }

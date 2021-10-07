@@ -1,4 +1,4 @@
-package com.rafal.firestoretodo.screens.main
+package com.rafal.firestoretodo.view.main
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig

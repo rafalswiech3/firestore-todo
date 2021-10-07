@@ -1,4 +1,4 @@
-package com.rafal.firestoretodo.screens.main
+package com.rafal.firestoretodo.view.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -25,6 +25,11 @@ class MainViewModel @Inject constructor(
     private val _removeTodoLiveData: MutableLiveData<Boolean> = MutableLiveData()
     val removeTodoLiveData: LiveData<Boolean> = _removeTodoLiveData
 
+    private val _removeTodoDialogLiveData: MutableLiveData<Boolean> = MutableLiveData()
+    val removeTodoDialogLiveData: LiveData<Boolean> = _removeTodoDialogLiveData
+
+    var todoToRemoveID: String? = null
+
     fun getTodos() {
         viewModelScope.launch(Dispatchers.IO) {
             repo.getTodos().cachedIn(viewModelScope).collect {
@@ -40,9 +45,16 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun removeTodo(id: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            _removeTodoLiveData.postValue(repo.removeTodo(id))
+    fun removeTodoDialogConfirmed() {
+        _removeTodoDialogLiveData.value = true
+    }
+
+    fun removeTodo() {
+        todoToRemoveID?. let {
+            viewModelScope.launch(Dispatchers.IO) {
+                _removeTodoLiveData.postValue(repo.removeTodo(it))
+                todoToRemoveID = null
+            }
         }
     }
 

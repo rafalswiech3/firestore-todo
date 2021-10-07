@@ -1,4 +1,4 @@
-package com.rafal.firestoretodo.screens.addtodo
+package com.rafal.firestoretodo.view.addtodo
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

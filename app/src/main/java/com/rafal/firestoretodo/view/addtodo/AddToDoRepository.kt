@@ -1,8 +1,6 @@
-package com.rafal.firestoretodo.screens.addtodo
+package com.rafal.firestoretodo.view.addtodo
 
-import android.util.Log
 import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.FirebaseFirestore
 import com.rafal.firestoretodo.model.Todo
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject

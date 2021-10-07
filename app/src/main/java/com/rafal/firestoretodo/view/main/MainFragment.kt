@@ -1,4 +1,4 @@
-package com.rafal.firestoretodo.screens.main
+package com.rafal.firestoretodo.view.main
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
@@ -15,6 +16,7 @@ import com.google.firebase.firestore.ListenerRegistration
 import com.rafal.firestoretodo.R
 import com.rafal.firestoretodo.databinding.FragmentMainBinding
 import com.rafal.firestoretodo.utils.IRecyclerViewClickListener
+import com.rafal.firestoretodo.view.dialogs.DeleteToDoConfirmationDialog
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import javax.inject.Named
@@ -27,7 +29,7 @@ class MainFragment : Fragment(), IRecyclerViewClickListener {
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel: MainViewModel by activityViewModels()
 
     private lateinit var adapter: TodoAdapter
     private lateinit var todosRegistration: ListenerRegistration
@@ -50,6 +52,7 @@ class MainFragment : Fragment(), IRecyclerViewClickListener {
         prepareRecyclerView()
         observeToDoLiveData()
         observeRemoveToDoLiveData()
+        observeRemoveTodoDialogLiveData()
         registerFloatingButtonClickListener()
         registerRetryButtonClickListener()
         getTodosInit()
@@ -105,6 +108,16 @@ class MainFragment : Fragment(), IRecyclerViewClickListener {
         }
     }
 
+    private fun observeRemoveTodoDialogLiveData() {
+        viewModel.removeTodoDialogLiveData.observe(viewLifecycleOwner) {
+            if (it) {
+                viewModel.todoToRemoveID?.let {
+                    viewModel.removeTodo()
+                }
+            }
+        }
+    }
+
     private fun getTodosInit() {
         viewModel.getTodosInit()
     }
@@ -128,12 +141,14 @@ class MainFragment : Fragment(), IRecyclerViewClickListener {
         }
     }
 
+    override fun longClick(id: String) {
+        viewModel.todoToRemoveID = id
+        val dialog = DeleteToDoConfirmationDialog()
+        dialog.show(childFragmentManager, null)
+    }
+
     override fun onStop() {
         todosRegistration.remove()
         super.onStop()
-    }
-
-    override fun longClick(id: String) {
-        viewModel.removeTodo(id)
     }
 }
