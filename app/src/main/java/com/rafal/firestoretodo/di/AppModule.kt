@@ -22,4 +22,5 @@ class AppModule {
     @Provides
     @Singleton
     fun provideFirestoreToDoCollection(db: FirebaseFirestore) = db.collection("todos")
+
 }

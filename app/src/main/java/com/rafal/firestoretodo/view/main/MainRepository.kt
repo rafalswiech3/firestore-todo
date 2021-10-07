@@ -10,12 +10,11 @@ import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Named
 
-const val PAGE_SIZE = 10
+const val PAGE_SIZE = 30
 
 class MainRepository @Inject constructor(
     @Named("todos_collection") val todos: CollectionReference
-) {
-    private lateinit var pagingSource: MainPagingSource
+){
 
     fun getTodos(): Flow<PagingData<Todo>> {
         return Pager(
@@ -23,9 +22,7 @@ class MainRepository @Inject constructor(
                 pageSize = PAGE_SIZE,
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { MainPagingSource(todos).also {
-                pagingSource = it
-            } }
+            pagingSourceFactory = { MainPagingSource(todos)}
         ).flow
     }
 

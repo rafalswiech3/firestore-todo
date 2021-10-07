@@ -9,7 +9,12 @@
         android:id="@+id/addToDoFragment"
         android:name="com.rafal.firestoretodo.view.addtodo.AddToDoFragment"
         android:label="@string/add_todo_fragment_title"
-        tools:layout="@layout/fragment_add_to_do" />
+        tools:layout="@layout/fragment_add_to_do" >
+        <argument
+            android:name="todo"
+            app:argType="com.rafal.firestoretodo.model.Todo"
+            app:nullable="true" />
+    </fragment>
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.rafal.firestoretodo.view.main.MainFragment"

@@ -23,4 +23,10 @@ class AddToDoViewModel @Inject constructor(
             _addTodoLiveData.postValue(result)
         }
     }
+
+    fun editToDo(todo: Todo, newToDo: Todo) {
+        viewModelScope.launch {
+            repo.editToDo(todo, newToDo)
+        }
+    }
 }

@@ -51,12 +51,11 @@ class MainViewModel @Inject constructor(
     }
 
     fun removeTodo() {
-        todoToRemoveID?. let {
+        todoToRemoveID?.let {
             viewModelScope.launch(Dispatchers.IO) {
                 _removeTodoLiveData.postValue(Event(repo.removeTodo(it)))
                 todoToRemoveID = null
             }
         }
     }
-
 }

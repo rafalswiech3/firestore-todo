@@ -35,6 +35,10 @@ class TodoAdapter(
 
             loadIcon(todo.url)
 
+            binding.root.setOnClickListener {
+                listener.click(todo)
+            }
+
             binding.root.setOnLongClickListener {
                 listener.longClick(todo.id!!)
                 true

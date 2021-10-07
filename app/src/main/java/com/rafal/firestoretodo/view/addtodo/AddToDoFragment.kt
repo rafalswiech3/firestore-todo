@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.rafal.firestoretodo.R
 import com.rafal.firestoretodo.databinding.FragmentAddToDoBinding
 import com.rafal.firestoretodo.model.Todo
@@ -23,6 +24,10 @@ class AddToDoFragment : Fragment() {
 
     private val viewModel: AddToDoViewModel by viewModels()
 
+    private val navArgs: AddToDoFragmentArgs by navArgs()
+
+    private var isEditMode = false
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,8 +39,21 @@ class AddToDoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        isEditMode = navArgs.todo != null
+
         registerAddToDoButtonListener()
         observeAddToDoLiveData()
+        fillDataIfEditMode()
+    }
+
+    private fun fillDataIfEditMode() {
+        if (isEditMode) {
+            binding.apply {
+                addTitleTextInput.text?.append(navArgs.todo?.title)
+                addDescTextInput.text?.append(navArgs.todo?.desc)
+                addUrlTextInput.text?.append(navArgs.todo?.url)
+            }
+        }
     }
 
     private fun registerAddToDoButtonListener() {
@@ -44,16 +62,32 @@ class AddToDoFragment : Fragment() {
             val description = binding.addDescTextInput.text.toString()
             val url = binding.addUrlTextInput.text.toString()
             if (validateInput(title, description, url)) {
-                viewModel.addToDo(
-                    Todo(
+                if (isEditMode) {
+                    val todo = Todo(
                         title = title,
                         desc = description,
                         url = url
                     )
-                )
+                    editToDo(navArgs.todo!!, todo)
+                } else {
+                    val todo = Todo(
+                        title = title,
+                        desc = description,
+                        url = url
+                    )
+                    addToDo(todo)
+                }
                 findNavController().popBackStack()
             }
         }
+    }
+
+    private fun addToDo(todo: Todo) {
+        viewModel.addToDo(todo)
+    }
+
+    private fun editToDo(todo: Todo, newTodo: Todo) {
+        viewModel.editToDo(todo, newTodo)
     }
 
     private fun validateInput(title: String, desc: String, url: String): Boolean {

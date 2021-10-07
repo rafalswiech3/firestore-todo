@@ -4,12 +4,12 @@ import android.webkit.URLUtil
 
 object ToDoValidator {
     fun validateTitle(title: String): Boolean {
-        if(title.isEmpty()) return false
+        if(title.isEmpty() || title.length > 30) return false
         return true
     }
 
     fun validateDescription(desc: String): Boolean {
-        if(desc.isEmpty()) return false
+        if(desc.isEmpty() || desc.length > 200) return false
         return true
     }
 

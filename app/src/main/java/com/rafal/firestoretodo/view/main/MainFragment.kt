@@ -1,11 +1,11 @@
 package com.rafal.firestoretodo.view.main
 
 import android.os.Bundle
+import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -15,6 +15,7 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.ListenerRegistration
 import com.rafal.firestoretodo.R
 import com.rafal.firestoretodo.databinding.FragmentMainBinding
+import com.rafal.firestoretodo.model.Todo
 import com.rafal.firestoretodo.utils.IRecyclerViewClickListener
 import com.rafal.firestoretodo.view.dialogs.DeleteToDoConfirmationDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -124,7 +125,7 @@ class MainFragment : Fragment(), IRecyclerViewClickListener {
 
     private fun registerFloatingButtonClickListener() {
         binding.addTodoFb.setOnClickListener {
-            val action = MainFragmentDirections.actionMainFragmentToAddToDoFragment()
+            val action = MainFragmentDirections.actionMainFragmentToAddToDoFragment(null)
             findNavController().navigate(action)
         }
     }
@@ -139,6 +140,11 @@ class MainFragment : Fragment(), IRecyclerViewClickListener {
                 adapter.refresh()
             }
         }
+    }
+
+    override fun click(todo: Todo) {
+        val action = MainFragmentDirections.actionMainFragmentToAddToDoFragment(todo)
+        findNavController().navigate(action)
     }
 
     override fun longClick(id: String) {
