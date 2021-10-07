@@ -15,4 +15,7 @@
     <string name="error_remove_todo">Failed to remove ToDo</string>
     <string name="error_loading">Error loading data</string>
     <string name="retry">Retry</string>
+    <string name="title_error">Title can\'t be empty</string>
+    <string name="desc_error">Description can\'t be empty</string>
+    <string name="url_error">Invalid URL format</string>
 </resources>

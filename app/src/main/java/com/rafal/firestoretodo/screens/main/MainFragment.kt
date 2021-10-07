@@ -33,7 +33,8 @@ class MainFragment : Fragment(), IRecyclerViewClickListener {
     private lateinit var todosRegistration: ListenerRegistration
 
     @Inject
-    @Named("todos_collection") lateinit var todos: CollectionReference
+    @Named("todos_collection")
+    lateinit var todos: CollectionReference
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,6 +68,11 @@ class MainFragment : Fragment(), IRecyclerViewClickListener {
             binding.mainPb.isVisible = loadState.source.refresh is LoadState.Loading
             binding.errorGroup.isVisible = loadState.source.refresh is LoadState.Error
         }
+        adapter.withLoadStateHeaderAndFooter(
+            header = ResultsLoadStateAdapter { adapter.retry() },
+            footer = ResultsLoadStateAdapter { adapter.retry() }
+        )
+
     }
 
     private fun prepareRecyclerView() {
@@ -84,9 +90,17 @@ class MainFragment : Fragment(), IRecyclerViewClickListener {
 
     private fun observeRemoveToDoLiveData() {
         viewModel.removeTodoLiveData.observe(viewLifecycleOwner) {
-            when(it) {
-                true -> Toast.makeText(context, getString(R.string.success_remove_todo), Toast.LENGTH_SHORT).show()
-                false -> Toast.makeText(context, getString(R.string.error_remove_todo), Toast.LENGTH_SHORT).show()
+            when (it) {
+                true -> Toast.makeText(
+                    context,
+                    getString(R.string.success_remove_todo),
+                    Toast.LENGTH_SHORT
+                ).show()
+                false -> Toast.makeText(
+                    context,
+                    getString(R.string.error_remove_todo),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }

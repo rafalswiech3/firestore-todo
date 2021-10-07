@@ -1,5 +1,6 @@
 package com.rafal.firestoretodo.screens.addtodo
 
+import android.util.Log
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.rafal.firestoretodo.model.Todo

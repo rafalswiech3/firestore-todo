@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.rafal.firestoretodo.R
 import com.rafal.firestoretodo.databinding.FragmentAddToDoBinding
 import com.rafal.firestoretodo.model.Todo
@@ -52,6 +53,7 @@ class AddToDoFragment : Fragment() {
                         url = url
                     )
                 )
+                findNavController().popBackStack()
             }
         }
     }
@@ -59,17 +61,17 @@ class AddToDoFragment : Fragment() {
     private fun validateInput(title: String, desc: String, url: String): Boolean {
         var result = true
         if (!ToDoValidator.validateTitle(title)) {
-            binding.addTitleTextInput.error = "Title can't be empty"
+            binding.addTitleTextInput.error = getString(R.string.title_error)
             result = false
         }
 
         if (!ToDoValidator.validateDescription(desc)) {
-            binding.addDescTextInput.error = "Description can't be empty"
+            binding.addDescTextInput.error = getString(R.string.desc_error)
             result = false
         }
 
-        if(!ToDoValidator.validateUrl(url)) {
-            binding.addUrlTextInput.error = "Invalid url format"
+        if (!ToDoValidator.validateUrl(url)) {
+            binding.addUrlTextInput.error = getString(R.string.url_error)
             result = false
         }
 
