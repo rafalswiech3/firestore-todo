@@ -7,8 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentChange
@@ -49,8 +51,6 @@ class MainFragment : Fragment(), IRecyclerViewClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = TodoAdapter(this)
-
         prepareRecyclerView()
         observeToDoLiveData()
         observeRemoveToDoLiveData()
@@ -59,7 +59,16 @@ class MainFragment : Fragment(), IRecyclerViewClickListener {
         addSnapshotListener()
     }
 
+    private fun prepareTodoAdapter() {
+        adapter = TodoAdapter(this)
+        adapter.addLoadStateListener { loadState ->
+            binding.mainPb.isVisible = loadState.source.refresh is LoadState.Loading
+            binding.errorGroup.isVisible = loadState.source.refresh is LoadState.Error
+        }
+    }
+
     private fun prepareRecyclerView() {
+        prepareTodoAdapter()
         val recyclerView = binding.todoRv
 
         recyclerView.adapter = adapter
@@ -111,5 +120,4 @@ class MainFragment : Fragment(), IRecyclerViewClickListener {
     override fun longClick(id: String) {
         viewModel.removeTodo(id)
     }
-
 }

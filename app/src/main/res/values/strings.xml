@@ -13,4 +13,6 @@
     <string name="created">Created:</string>
     <string name="success_remove_todo">Successfully removed ToDo</string>
     <string name="error_remove_todo">Failed to remove ToDo</string>
+    <string name="error_loading">Error loading data</string>
+    <string name="retry">Retry</string>
 </resources>

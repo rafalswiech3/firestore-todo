@@ -15,13 +15,17 @@ const val PAGE_SIZE = 10
 class MainRepository @Inject constructor(
     @Named("todos_collection") val todos: CollectionReference
 ) {
+    private lateinit var pagingSource: MainPagingSource
+
     fun getTodos(): Flow<PagingData<Todo>> {
         return Pager(
             config = PagingConfig(
                 pageSize = PAGE_SIZE,
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { MainPagingSource(todos) }
+            pagingSourceFactory = { MainPagingSource(todos).also {
+                pagingSource = it
+            } }
         ).flow
     }
 
@@ -33,4 +37,5 @@ class MainRepository @Inject constructor(
             .await()
         return result!!
     }
+
 }

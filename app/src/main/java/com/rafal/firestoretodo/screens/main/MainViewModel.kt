@@ -17,6 +17,8 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val repo: MainRepository
 ) : ViewModel() {
+    private var todosInitLoaded = false
+
     private val _todoLiveData: MutableLiveData<PagingData<Todo>> = MutableLiveData()
     val todoLiveData: LiveData<PagingData<Todo>> = _todoLiveData
 
@@ -24,10 +26,13 @@ class MainViewModel @Inject constructor(
     val removeTodoLiveData: LiveData<Boolean> = _removeTodoLiveData
 
     fun getTodos() {
-        viewModelScope.launch(Dispatchers.IO) {
-            repo.getTodos().cachedIn(viewModelScope).collect {
-                _todoLiveData.postValue(it)
+        if(!todosInitLoaded) {
+            viewModelScope.launch(Dispatchers.IO) {
+                repo.getTodos().cachedIn(viewModelScope).collect {
+                    _todoLiveData.postValue(it)
+                }
             }
+            todosInitLoaded
         }
     }
 
@@ -36,4 +41,5 @@ class MainViewModel @Inject constructor(
             _removeTodoLiveData.postValue(repo.removeTodo(id))
         }
     }
+
 }

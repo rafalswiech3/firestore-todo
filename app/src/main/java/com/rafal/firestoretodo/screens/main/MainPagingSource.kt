@@ -40,7 +40,6 @@ class MainPagingSource(
                 nextKey = nextPage
             )
         } catch (exception: Exception) {
-            Log.d("TAG", "Error Pagingn source: $exception")
             LoadResult.Error(exception)
         }
     }
